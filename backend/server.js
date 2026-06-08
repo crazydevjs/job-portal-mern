@@ -29,3 +29,9 @@ app.use("/api/jobs", jobRoutes);
 
 const userRoutes = require("./routes/userRoutes");
 app.use("/api/users", userRoutes);
+
+const applicationRoutes = require("./routes/applicationRoutes");
+app.use(
+  "/api/applications",
+  applicationRoutes
+);

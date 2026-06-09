@@ -18,42 +18,42 @@ function Profile() {
     });
 
   useEffect(() => {
-  fetchProfile();
-}, []);
-
-const handleUpdate = async () => {
-  try {
-
-    const token =
-      localStorage.getItem("token");
-
-    await axios.put(
-      "http://localhost:5000/api/users/profile",
-      {
-        ...formData,
-        skills:
-          formData.skills
-            .split(",")
-            .map((s) => s.trim()),
-      },
-      {
-        headers: {
-          Authorization:
-            `Bearer ${token}`,
-        },
-      }
-    );
-
-    alert("Profile Updated");
-
-    setEditing(false);
-
     fetchProfile();
+  }, []);
 
-  } catch (error) {
-    console.log(error);
-  }
-};
+  const handleUpdate = async () => {
+    try {
+
+      const token =
+        localStorage.getItem("token");
+
+      await axios.put(
+        "http://localhost:5000/api/users/profile",
+        {
+          ...formData,
+          skills:
+            formData.skills
+              .split(",")
+              .map((s) => s.trim()),
+        },
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert("Profile Updated");
+
+      setEditing(false);
+
+      fetchProfile();
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const fetchProfile = async () => {
     try {
       const token =
@@ -81,6 +81,8 @@ const handleUpdate = async () => {
 
         bio:
           res.data.user.bio || "",
+
+
 
         linkedin:
           res.data.user.linkedin || "",
@@ -139,21 +141,18 @@ const handleUpdate = async () => {
             </h2>
 
             <div className="flex flex-wrap gap-2">
-              <span className="bg-slate-200 px-3 py-1 rounded-full">
-                React
-              </span>
-
-              <span className="bg-slate-200 px-3 py-1 rounded-full">
-                Node.js
-              </span>
-
-              <span className="bg-slate-200 px-3 py-1 rounded-full">
-                MongoDB
-              </span>
-
-              <span className="bg-slate-200 px-3 py-1 rounded-full">
-                JavaScript
-              </span>
+              {user.skills?.length > 0 ? (
+                user.skills.map((skill, index) => (
+                  <span
+                    key={index}
+                    className="bg-slate-200 px-3 py-1 rounded-full"
+                  >
+                    {skill}
+                  </span>
+                ))
+              ) : (
+                <p>No skills added</p>
+              )}
             </div>
           </div>
 
@@ -163,11 +162,52 @@ const handleUpdate = async () => {
             </h2>
 
             <p className="text-gray-600">
-              Aspiring Full Stack Developer passionate
-              about building scalable web applications
-              using the MERN stack.
+              {user.bio || "No bio added"}
             </p>
           </div>
+
+        </div>
+        <div className="mt-6 bg-slate-50 p-5 rounded-xl">
+
+          <h2 className="font-bold text-lg mb-3 mt-6 bg-slate-50 p-5 rounded-xl shadow">
+            Contact Information
+          </h2>
+
+          <p>📱 {user.phone || "Not Added"}</p>
+
+          <p className="mt-2">
+            📍 {user.location || "Not Added"}
+          </p>
+
+          <p className="mt-2">
+            💻 {user.github ? (
+              <a
+                href={user.github}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-600 underline"
+              >
+                GitHub Profile
+              </a>
+            ) : (
+              "Not Added"
+            )}
+          </p>
+
+          <p className="mt-2">
+            🔗 {user.linkedin ? (
+              <a
+                href={user.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-600 underline"
+              >
+                LinkedIn Profile
+              </a>
+            ) : (
+              "Not Added"
+            )}
+          </p>
 
         </div>
         {editing && (

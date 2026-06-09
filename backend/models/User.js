@@ -26,6 +26,35 @@ const userSchema = new mongoose.Schema(
       enum: ["candidate", "recruiter"],
       default: "candidate",
     },
+    phone: {
+      type: String,
+      default: "",
+    },
+
+    location: {
+      type: String,
+      default: "",
+    },
+
+    skills: {
+      type: [String],
+      default: [],
+    },
+
+    bio: {
+      type: String,
+      default: "",
+    },
+
+    linkedin: {
+      type: String,
+      default: "",
+    },
+
+    github: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Jobs from "./pages/Jobs";
 import Profile from "./pages/Profile";
 import MyApplications from "./pages/MyApplications";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Route path="/" element={<Jobs />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<ProtectedRoute> <Profile /> </ProtectedRoute>}/>
         <Route path="/applications" element={<MyApplications />}/>
       </Routes>
     </BrowserRouter>

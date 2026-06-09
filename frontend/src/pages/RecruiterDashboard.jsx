@@ -3,276 +3,415 @@ import axios from "axios";
 
 function RecruiterDashboard() {
 
-  const [formData, setFormData] = useState({
-    title: "",
-    company: "",
-    location: "",
-    salary: "",
-    description: "",
-  });
-
-  const [jobs, setJobs] = useState([]);
-
-  useEffect(() => {
-    fetchMyJobs();
-  }, []);
-
-  const fetchMyJobs = async () => {
-    try {
-
-      const token =
-        localStorage.getItem("token");
-
-      const res = await axios.get(
-        "http://localhost:5000/api/jobs/my/jobs",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setJobs(res.data.jobs);
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const createJob = async () => {
-    try {
-
-      const token =
-        localStorage.getItem("token");
-
-      const res = await axios.post(
-        "http://localhost:5000/api/jobs/create",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      alert("Job Created Successfully");
-
-      console.log(res.data);
-
-      setFormData({
+    const [formData, setFormData] = useState({
         title: "",
         company: "",
         location: "",
         salary: "",
         description: "",
-      });
+    });
 
-      fetchMyJobs();
+    const [jobs, setJobs] = useState([]);
+    const [applicants, setApplicants] = useState([]);
+    const [selectedJob, setSelectedJob] = useState(null);
 
-    } catch (error) {
+    useEffect(() => {
+        fetchMyJobs();
+    }, []);
 
-      alert(
-        error.response?.data?.message ||
-        "Failed to create job"
-      );
+    const fetchMyJobs = async () => {
+        try {
 
-      console.log(error);
+            const token =
+                localStorage.getItem("token");
 
-    }
-  };
+            const res = await axios.get(
+                "http://localhost:5000/api/jobs/my/jobs",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-  const deleteJob = async (jobId) => {
-    try {
+            setJobs(res.data.jobs);
 
-      const token =
-        localStorage.getItem("token");
-
-      await axios.delete(
-        `http://localhost:5000/api/jobs/${jobId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        } catch (error) {
+            console.log(error);
         }
-      );
+    };
 
-      alert("Job Deleted Successfully");
+    const createJob = async () => {
+        try {
 
-      fetchMyJobs();
+            const token =
+                localStorage.getItem("token");
 
-    } catch (error) {
+            const res = await axios.post(
+                "http://localhost:5000/api/jobs/create",
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-      console.log(error);
+            alert("Job Created Successfully");
 
-      alert(
-        error.response?.data?.message ||
-        "Delete Failed"
-      );
+            console.log(res.data);
 
-    }
-  };
+            setFormData({
+                title: "",
+                company: "",
+                location: "",
+                salary: "",
+                description: "",
+            });
 
-  return (
-    <div className="min-h-screen p-4 md:p-8 bg-slate-100">
+            fetchMyJobs();
 
-      <div className="max-w-5xl mx-auto">
+        } catch (error) {
 
-        <h1 className="text-4xl font-bold mb-2">
-          Recruiter Dashboard
-        </h1>
+            alert(
+                error.response?.data?.message ||
+                "Failed to create job"
+            );
 
-        <p className="text-gray-600 mb-8">
-          Total Jobs Posted: {jobs.length}
-        </p>
+            console.log(error);
 
-        <div className="bg-white p-6 rounded-xl shadow-lg">
+        }
+    };
 
-          <h2 className="text-2xl font-bold mb-4">
-            Create New Job
-          </h2>
+    const deleteJob = async (jobId) => {
+        try {
 
-          <div className="grid gap-4">
+            const token =
+                localStorage.getItem("token");
 
-            <input
-              className="border p-3 rounded"
-              placeholder="Job Title"
-              value={formData.title}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  title: e.target.value,
-                })
-              }
-            />
+            await axios.delete(
+                `http://localhost:5000/api/jobs/${jobId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-            <input
-              className="border p-3 rounded"
-              placeholder="Company"
-              value={formData.company}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  company: e.target.value,
-                })
-              }
-            />
+            alert("Job Deleted Successfully");
 
-            <input
-              className="border p-3 rounded"
-              placeholder="Location"
-              value={formData.location}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  location: e.target.value,
-                })
-              }
-            />
+            fetchMyJobs();
 
-            <input
-              className="border p-3 rounded"
-              placeholder="Salary"
-              value={formData.salary}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  salary: e.target.value,
-                })
-              }
-            />
+        } catch (error) {
 
-            <textarea
-              className="border p-3 rounded"
-              rows="4"
-              placeholder="Job Description"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  description: e.target.value,
-                })
-              }
-            />
+            console.log(error);
 
-            <button
-              className="bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
-              onClick={createJob}
-            >
-              Create Job
-            </button>
+            alert(
+                error.response?.data?.message ||
+                "Delete Failed"
+            );
 
-          </div>
+        }
+    };
+    const fetchApplicants = async (jobId) => {
+        try {
+            const token = localStorage.getItem("token");
 
-        </div>
+            const res = await axios.get(
+                `http://localhost:5000/api/applications/job/${jobId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-        <div className="mt-10">
+            setApplicants(res.data.applications);
+            setSelectedJob(jobId);
 
-          <h2 className="text-3xl font-bold mb-6">
-            My Posted Jobs
-          </h2>
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-          {jobs.length === 0 ? (
+    const updateStatus = async (
+        applicationId,
+        status
+    ) => {
+        try {
 
-            <div className="bg-white p-6 rounded-xl shadow">
-              No jobs posted yet
-            </div>
+            const token =
+                localStorage.getItem("token");
 
-          ) : (
+            await axios.put(
+                `http://localhost:5000/api/applications/status/${applicationId}`,
+                { status },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-            <div className="grid md:grid-cols-2 gap-6">
+            fetchApplicants(selectedJob);
 
-              {jobs.map((job) => (
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-                <div
-                  key={job._id}
-                  className="bg-white p-6 rounded-xl shadow-lg"
-                >
+    return (
+        <div className="min-h-screen p-4 md:p-8 bg-slate-100">
 
-                  <h3 className="text-xl font-bold">
-                    {job.title}
-                  </h3>
+            <div className="max-w-5xl mx-auto">
 
-                  <p className="text-gray-600 mt-2">
-                    {job.company}
-                  </p>
+                <h1 className="text-4xl font-bold mb-2">
+                    Recruiter Dashboard
+                </h1>
 
-                  <p className="text-gray-600">
-                    📍 {job.location}
-                  </p>
+                <p className="text-gray-600 mb-8">
+                    Total Jobs Posted: {jobs.length}
+                </p>
 
-                  <p className="text-green-600 font-bold mt-2">
-                    ₹ {job.salary}
-                  </p>
+                <div className="bg-white p-6 rounded-xl shadow-lg">
 
-                  <p className="mt-3 text-gray-700">
-                    {job.description}
-                  </p>
+                    <h2 className="text-2xl font-bold mb-4">
+                        Create New Job
+                    </h2>
 
-                  <div className="mt-4">
-                    <button
-                      className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-                      onClick={() =>
-                        deleteJob(job._id)
-                      }
-                    >
-                      Delete Job
-                    </button>
-                  </div>
+                    <div className="grid gap-4">
+
+                        <input
+                            className="border p-3 rounded"
+                            placeholder="Job Title"
+                            value={formData.title}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    title: e.target.value,
+                                })
+                            }
+                        />
+
+                        <input
+                            className="border p-3 rounded"
+                            placeholder="Company"
+                            value={formData.company}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    company: e.target.value,
+                                })
+                            }
+                        />
+
+                        <input
+                            className="border p-3 rounded"
+                            placeholder="Location"
+                            value={formData.location}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    location: e.target.value,
+                                })
+                            }
+                        />
+
+                        <input
+                            className="border p-3 rounded"
+                            placeholder="Salary"
+                            value={formData.salary}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    salary: e.target.value,
+                                })
+                            }
+                        />
+
+                        <textarea
+                            className="border p-3 rounded"
+                            rows="4"
+                            placeholder="Job Description"
+                            value={formData.description}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    description: e.target.value,
+                                })
+                            }
+                        />
+
+                        <button
+                            className="bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
+                            onClick={createJob}
+                        >
+                            Create Job
+                        </button>
+
+                    </div>
 
                 </div>
 
-              ))}
+                <div className="mt-10">
+
+                    <h2 className="text-3xl font-bold mb-6">
+                        My Posted Jobs
+                    </h2>
+
+                    {jobs.length === 0 ? (
+
+                        <div className="bg-white p-6 rounded-xl shadow">
+                            No jobs posted yet
+                        </div>
+
+                    ) : (
+
+                        <div className="grid md:grid-cols-2 gap-6">
+
+                            {jobs.map((job) => (
+
+                                <div
+                                    key={job._id}
+                                    className="bg-white p-6 rounded-xl shadow-lg"
+                                >
+
+                                    <h3 className="text-xl font-bold">
+                                        {job.title}
+                                    </h3>
+
+                                    <p className="text-gray-600 mt-2">
+                                        {job.company}
+                                    </p>
+
+                                    <p className="text-gray-600">
+                                        📍 {job.location}
+                                    </p>
+
+                                    <p className="text-green-600 font-bold mt-2">
+                                        ₹ {job.salary}
+                                    </p>
+
+                                    <p className="mt-3 text-gray-700">
+                                        {job.description}
+                                    </p>
+
+                                    <div className="mt-4 flex gap-2 flex-wrap">
+
+                                        <button
+                                            className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                                            onClick={() =>
+                                                fetchApplicants(job._id)
+                                            }
+                                        >
+                                            View Applicants
+                                        </button>
+
+                                        <button
+                                            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                                            onClick={() =>
+                                                deleteJob(job._id)
+                                            }
+                                        >
+                                            Delete Job
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            ))}
+
+                        </div>
+
+                    )}
+
+                </div>
+
+                {selectedJob && (
+
+                    <div className="mt-12">
+
+                        <h2 className="text-3xl font-bold mb-6">
+                            Applicants
+                        </h2>
+
+                        {applicants.length === 0 ? (
+
+                            <div className="bg-white p-6 rounded-xl shadow">
+                                No applicants yet
+                            </div>
+
+                        ) : (
+
+                            <div className="grid gap-4">
+
+                                {applicants.map((app) => (
+
+                                    <div
+                                        key={app._id}
+                                        className="bg-white p-6 rounded-xl shadow"
+                                    >
+
+                                        <h3 className="text-xl font-bold">
+                                            {app.candidate?.name}
+                                        </h3>
+
+                                        <p className="text-gray-600">
+                                            {app.candidate?.email}
+                                        </p>
+
+                                        <p className="mt-2">
+                                            Status:
+                                            <span className="font-bold ml-2">
+                                                {app.status}
+                                            </span>
+                                        </p>
+
+                                        <div className="mt-4 flex gap-3">
+
+                                            <button
+                                                className="bg-green-600 text-white px-4 py-2 rounded"
+                                                onClick={() =>
+                                                    updateStatus(
+                                                        app._id,
+                                                        "accepted"
+                                                    )
+                                                }
+                                            >
+                                                Accept
+                                            </button>
+
+                                            <button
+                                                className="bg-red-600 text-white px-4 py-2 rounded"
+                                                onClick={() =>
+                                                    updateStatus(
+                                                        app._id,
+                                                        "rejected"
+                                                    )
+                                                }
+                                            >
+                                                Reject
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                ))}
+
+                            </div>
+
+                        )}
+
+                    </div>
+
+                )}
 
             </div>
 
-          )}
-
         </div>
-
-      </div>
-
-    </div>
-  );
+    );
 }
 
 export default RecruiterDashboard;

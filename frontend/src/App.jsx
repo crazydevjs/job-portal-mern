@@ -6,6 +6,7 @@ import Jobs from "./pages/Jobs";
 import Profile from "./pages/Profile";
 import MyApplications from "./pages/MyApplications";
 import JobDetails from "./pages/JobDetails";
+import RecruiterDashboard from "./pages/RecruiterDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
@@ -40,6 +41,10 @@ function AppContent() {
         <Route
           path="/job/:id"
           element={<JobDetails />}
+        />
+        <Route
+          path="/dashboard"
+          element={<RecruiterDashboard />}
         />
 
         <Route

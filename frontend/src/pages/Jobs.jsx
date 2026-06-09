@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchJobs();
@@ -17,8 +19,12 @@ function Jobs() {
 
       setJobs(res.data.jobs);
 
+      setLoading(false);
+
     } catch (error) {
       console.log(error);
+
+      setLoading(false);
     }
   };
 
@@ -53,6 +59,23 @@ function Jobs() {
 
     }
   };
+  if (loading) {
+    return (
+      <div className="text-center mt-10">
+        Loading jobs...
+      </div>
+    );
+  }
+
+  const filteredJobs = jobs.filter(
+    (job) =>
+      job.title
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      job.location
+        .toLowerCase()
+        .includes(search.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
@@ -71,17 +94,21 @@ function Jobs() {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        {jobs
-          .filter(
-            (job) =>
-              job.title
-                .toLowerCase()
-                .includes(search.toLowerCase()) ||
-              job.location
-                .toLowerCase()
-                .includes(search.toLowerCase())
-          )
-          .map((job) => (
+        {filteredJobs.length === 0 ? (
+
+          <div className="col-span-full text-center py-10">
+            <h2 className="text-2xl font-bold">
+              No Jobs Found
+            </h2>
+
+            <p className="text-gray-500 mt-2">
+              Try another search term
+            </p>
+          </div>
+
+        ) : (
+
+          filteredJobs.map((job) => (
 
             <div
               key={job._id}
@@ -107,16 +134,30 @@ function Jobs() {
                 {job.description}
               </p>
 
-              <button
-                className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
-                onClick={() => applyJob(job._id)}
-              >
-                Apply Now
-              </button>
+
+              <div className="mt-4 flex gap-3">
+
+                <Link
+                  to={`/job/${job._id}`}
+                  className="bg-slate-800 text-white px-4 py-2 rounded"
+                >
+                  View Details
+                </Link>
+
+                <button
+                  className="bg-blue-600 text-white px-4 py-2 rounded"
+                  onClick={() => applyJob(job._id)}
+                >
+                  Apply Now
+                </button>
+
+              </div>
 
             </div>
 
-          ))}
+          ))
+
+        )}
 
       </div>
 

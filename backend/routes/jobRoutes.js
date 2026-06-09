@@ -6,6 +6,7 @@ const protect = require("../middleware/authMiddleware");
 const {
   createJob,
   getAllJobs,
+  getJobById,
 } = require("../controllers/jobController");
 
 router.post(
@@ -15,5 +16,6 @@ router.post(
 );
 
 router.get("/", getAllJobs);
+router.get("/:id", getJobById);
 
 module.exports = router;

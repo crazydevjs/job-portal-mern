@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Jobs from "./pages/Jobs";
 import Profile from "./pages/Profile";
 import MyApplications from "./pages/MyApplications";
+import JobDetails from "./pages/JobDetails";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
@@ -34,6 +35,11 @@ function AppContent() {
               <Profile />
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="/job/:id"
+          element={<JobDetails />}
         />
 
         <Route

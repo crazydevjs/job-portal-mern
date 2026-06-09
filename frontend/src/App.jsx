@@ -6,10 +6,12 @@ import Jobs from "./pages/Jobs";
 import Profile from "./pages/Profile";
 import MyApplications from "./pages/MyApplications";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <BrowserRouter>
+    <Navbar/>
       <Routes>
         <Route path="/" element={<Jobs />} />
         <Route path="/login" element={<Login />} />

@@ -27,8 +27,7 @@ function RecruiterDashboard() {
         "http://localhost:5000/api/jobs/my/jobs",
         {
           headers: {
-            Authorization:
-              `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -51,8 +50,7 @@ function RecruiterDashboard() {
         formData,
         {
           headers: {
-            Authorization:
-              `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -79,6 +77,37 @@ function RecruiterDashboard() {
       );
 
       console.log(error);
+
+    }
+  };
+
+  const deleteJob = async (jobId) => {
+    try {
+
+      const token =
+        localStorage.getItem("token");
+
+      await axios.delete(
+        `http://localhost:5000/api/jobs/${jobId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert("Job Deleted Successfully");
+
+      fetchMyJobs();
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert(
+        error.response?.data?.message ||
+        "Delete Failed"
+      );
 
     }
   };
@@ -218,6 +247,17 @@ function RecruiterDashboard() {
                   <p className="mt-3 text-gray-700">
                     {job.description}
                   </p>
+
+                  <div className="mt-4">
+                    <button
+                      className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                      onClick={() =>
+                        deleteJob(job._id)
+                      }
+                    >
+                      Delete Job
+                    </button>
+                  </div>
 
                 </div>
 

@@ -54,34 +54,53 @@ function Jobs() {
   };
 
   return (
-    <div>
-      <h1>Available Jobs</h1>
+    <div className="min-h-screen bg-slate-100 p-8">
 
-      {jobs.map((job) => (
-        <div
-          key={job._id}
-          style={{
-            border: "1px solid black",
-            padding: "10px",
-            margin: "10px",
-          }}
-        >
-          <h2>{job.title}</h2>
+      <h1 className="text-4xl font-bold mb-8">
+        Available Jobs
+      </h1>
 
-          <p>{job.company}</p>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-          <p>{job.location}</p>
+        {jobs.map((job) => (
 
-          <p>₹ {job.salary}</p>
-
-          <p>{job.description}</p>
-          <button
-            onClick={() => applyJob(job._id)}
+          <div
+            key={job._id}
+            className="bg-white p-6 rounded-xl shadow-lg"
           >
-            Apply Now
-          </button>
-        </div>
-      ))}
+            <h2 className="text-2xl font-bold">
+              {job.title}
+            </h2>
+
+            <p className="mt-2 text-gray-600">
+              {job.company}
+            </p>
+
+            <p className="text-gray-600">
+              📍 {job.location}
+            </p>
+
+            <p className="text-green-600 font-bold mt-2">
+              ₹ {job.salary}
+            </p>
+
+            <p className="mt-3">
+              {job.description}
+            </p>
+
+            <button
+              className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+              onClick={() => applyJob(job._id)}
+            >
+              Apply Now
+            </button>
+
+          </div>
+
+        ))}
+
+      </div>
+
     </div>
   );
 }

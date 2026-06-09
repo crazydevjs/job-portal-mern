@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 function RecruiterDashboard() {
@@ -10,6 +10,35 @@ function RecruiterDashboard() {
     salary: "",
     description: "",
   });
+
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    fetchMyJobs();
+  }, []);
+
+  const fetchMyJobs = async () => {
+    try {
+
+      const token =
+        localStorage.getItem("token");
+
+      const res = await axios.get(
+        "http://localhost:5000/api/jobs/my/jobs",
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      );
+
+      setJobs(res.data.jobs);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const createJob = async () => {
     try {
@@ -40,6 +69,8 @@ function RecruiterDashboard() {
         description: "",
       });
 
+      fetchMyJobs();
+
     } catch (error) {
 
       alert(
@@ -55,11 +86,15 @@ function RecruiterDashboard() {
   return (
     <div className="min-h-screen p-4 md:p-8 bg-slate-100">
 
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
 
-        <h1 className="text-4xl font-bold mb-8">
+        <h1 className="text-4xl font-bold mb-2">
           Recruiter Dashboard
         </h1>
+
+        <p className="text-gray-600 mb-8">
+          Total Jobs Posted: {jobs.length}
+        </p>
 
         <div className="bg-white p-6 rounded-xl shadow-lg">
 
@@ -138,6 +173,59 @@ function RecruiterDashboard() {
             </button>
 
           </div>
+
+        </div>
+
+        <div className="mt-10">
+
+          <h2 className="text-3xl font-bold mb-6">
+            My Posted Jobs
+          </h2>
+
+          {jobs.length === 0 ? (
+
+            <div className="bg-white p-6 rounded-xl shadow">
+              No jobs posted yet
+            </div>
+
+          ) : (
+
+            <div className="grid md:grid-cols-2 gap-6">
+
+              {jobs.map((job) => (
+
+                <div
+                  key={job._id}
+                  className="bg-white p-6 rounded-xl shadow-lg"
+                >
+
+                  <h3 className="text-xl font-bold">
+                    {job.title}
+                  </h3>
+
+                  <p className="text-gray-600 mt-2">
+                    {job.company}
+                  </p>
+
+                  <p className="text-gray-600">
+                    📍 {job.location}
+                  </p>
+
+                  <p className="text-green-600 font-bold mt-2">
+                    ₹ {job.salary}
+                  </p>
+
+                  <p className="mt-3 text-gray-700">
+                    {job.description}
+                  </p>
+
+                </div>
+
+              ))}
+
+            </div>
+
+          )}
 
         </div>
 

@@ -97,8 +97,54 @@ const getProfile = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  try {
+
+    const {
+      phone,
+      location,
+      skills,
+      bio,
+      linkedin,
+      github,
+    } = req.body;
+
+    const user = await User.findById(
+      req.user.id
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    user.phone = phone;
+    user.location = location;
+    user.skills = skills;
+    user.bio = bio;
+    user.linkedin = linkedin;
+    user.github = github;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getProfile,
+  updateProfile,
 };

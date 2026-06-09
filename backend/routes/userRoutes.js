@@ -4,6 +4,7 @@ const {
   registerUser,
   loginUser,
   getProfile,
+  updateProfile,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -17,6 +18,11 @@ router.get(
   "/profile",
   protect,
   getProfile,
+);
+router.put(
+  "/profile",
+  protect,
+  updateProfile
 );
 
 module.exports = router;

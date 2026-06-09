@@ -4,29 +4,39 @@ function Navbar() {
     return (
         <nav
             style={{
-                padding: "15px",
-                borderBottom: "1px solid #ccc",
+                padding: "15px 30px",
+                borderBottom: "1px solid #ddd",
                 display: "flex",
-                gap: "20px",
+                justifyContent: "space-between",
+                alignItems: "center",
             }}
         >
-            <Link to="/">Jobs</Link>
+            <div>
+                <Link to="/">Jobs</Link>
+            </div>
 
-            <Link to="/applications">
-                My Applications
-            </Link>
+            <div style={{
+                display: "flex",
+                gap: "20px",
+                alignItems: "center"
+            }}>
+                <Link to="/applications">
+                    My Applications
+                </Link>
 
-            <Link to="/profile">
-                Profile
-            </Link>
-            <button
-                onClick={() => {
-                    localStorage.clear();
-                    window.location.href = "/login";
-                }}
-            >
-                Logout
-            </button>
+                <Link to="/profile">
+                    Profile
+                </Link>
+
+                <button
+                    onClick={() => {
+                        localStorage.clear();
+                        window.location.href = "/login";
+                    }}
+                >
+                    Logout
+                </button>
+            </div>
         </nav>
     );
 }

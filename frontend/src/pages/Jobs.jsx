@@ -22,36 +22,36 @@ function Jobs() {
   };
 
   const applyJob = async (jobId) => {
-  try {
+    try {
 
-    const token =
-      localStorage.getItem("token");
+      const token =
+        localStorage.getItem("token");
 
-    const res = await axios.post(
-      "http://localhost:5000/api/applications/apply",
-      {
-        jobId,
-      },
-      {
-        headers: {
-          Authorization:
-            `Bearer ${token}`,
+      const res = await axios.post(
+        "http://localhost:5000/api/applications/apply",
+        {
+          jobId,
         },
-      }
-    );
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      );
 
-    alert("Applied Successfully");
+      alert("Applied Successfully");
 
-    console.log(res.data);
+      console.log(res.data);
 
-  } catch (error) {
+    } catch (error) {
 
-    alert(
-      error.response?.data?.message
-    );
+      alert(
+        error.response?.data?.message
+      );
 
-  }
-};
+    }
+  };
 
   return (
     <div>
@@ -75,13 +75,13 @@ function Jobs() {
           <p>₹ {job.salary}</p>
 
           <p>{job.description}</p>
+          <button
+            onClick={() => applyJob(job._id)}
+          >
+            Apply Now
+          </button>
         </div>
       ))}
-      <button
-  onClick={() => applyJob(job._id)}
->
-  Apply Now
-</button>
     </div>
   );
 }

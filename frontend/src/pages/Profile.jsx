@@ -4,10 +4,56 @@ import axios from "axios";
 function Profile() {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+  const [editing, setEditing] =
+    useState(false);
 
+  const [formData, setFormData] =
+    useState({
+      phone: "",
+      location: "",
+      skills: "",
+      bio: "",
+      linkedin: "",
+      github: "",
+    });
+
+  useEffect(() => {
+  fetchProfile();
+}, []);
+
+const handleUpdate = async () => {
+  try {
+
+    const token =
+      localStorage.getItem("token");
+
+    await axios.put(
+      "http://localhost:5000/api/users/profile",
+      {
+        ...formData,
+        skills:
+          formData.skills
+            .split(",")
+            .map((s) => s.trim()),
+      },
+      {
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("Profile Updated");
+
+    setEditing(false);
+
+    fetchProfile();
+
+  } catch (error) {
+    console.log(error);
+  }
+};
   const fetchProfile = async () => {
     try {
       const token =
@@ -23,6 +69,25 @@ function Profile() {
       );
 
       setUser(res.data.user);
+      setFormData({
+        phone:
+          res.data.user.phone || "",
+
+        location:
+          res.data.user.location || "",
+
+        skills:
+          res.data.user.skills?.join(", ") || "",
+
+        bio:
+          res.data.user.bio || "",
+
+        linkedin:
+          res.data.user.linkedin || "",
+
+        github:
+          res.data.user.github || "",
+      });
 
     } catch (error) {
       console.log(error);
@@ -105,11 +170,113 @@ function Profile() {
           </div>
 
         </div>
+        {editing && (
+
+          <div className="mt-8 bg-slate-50 p-6 rounded-xl">
+
+            <h2 className="text-2xl font-bold mb-4">
+              Edit Profile
+            </h2>
+
+            <div className="grid gap-4">
+
+              <input
+                className="border p-3 rounded"
+                placeholder="Phone"
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    phone: e.target.value,
+                  })
+                }
+              />
+
+              <input
+                className="border p-3 rounded"
+                placeholder="Location"
+                value={formData.location}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    location: e.target.value,
+                  })
+                }
+              />
+
+              <input
+                className="border p-3 rounded"
+                placeholder="Skills (comma separated)"
+                value={formData.skills}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    skills: e.target.value,
+                  })
+                }
+              />
+
+              <textarea
+                className="border p-3 rounded"
+                placeholder="Bio"
+                rows="4"
+                value={formData.bio}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    bio: e.target.value,
+                  })
+                }
+              />
+
+              <input
+                className="border p-3 rounded"
+                placeholder="LinkedIn URL"
+                value={formData.linkedin}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    linkedin: e.target.value,
+                  })
+                }
+              />
+
+              <input
+                className="border p-3 rounded"
+                placeholder="GitHub URL"
+                value={formData.github}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    github: e.target.value,
+                  })
+                }
+              />
+
+              <button
+                className="bg-green-600 text-white py-3 rounded"
+                onClick={handleUpdate}
+              >
+                Save Profile
+              </button>
+
+            </div>
+
+          </div>
+
+        )}
 
         <div className="mt-8 flex flex-wrap gap-4">
 
-          <button className="bg-blue-600 text-white px-5 py-2 rounded-lg">
-            Edit Profile
+          <button
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg"
+            onClick={() =>
+              setEditing(!editing)
+            }
+          >
+            {editing
+              ? "Cancel"
+              : "Edit Profile"}
           </button>
 
           <button

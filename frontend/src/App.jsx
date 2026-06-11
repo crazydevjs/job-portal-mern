@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import MyApplications from "./pages/MyApplications";
 import JobDetails from "./pages/JobDetails";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
+import Footer from "./components/Footer";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
@@ -32,8 +33,8 @@ function AppContent() {
         <Route path="/dashboard" element={<RecruiterDashboard />} />
         <Route path="/applications" element={<ProtectedRoute><MyApplications /></ProtectedRoute>} />
       </Routes>
+      <Footer />
     </>
   );
 }
-
 export default AppContent;

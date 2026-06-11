@@ -28,7 +28,7 @@ function Profile() {
         localStorage.getItem("token");
 
       await axios.put(
-        "http://localhost:5000/api/users/profile",
+        "https://job-portal-mern-88c6.onrender.com/api/users/profile",
         {
           ...formData,
           skills:
@@ -60,7 +60,7 @@ function Profile() {
         localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:5000/api/users/profile",
+        "https://job-portal-mern-88c6.onrender.com/api/users/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,

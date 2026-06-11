@@ -26,7 +26,7 @@ function RecruiterDashboard() {
                 localStorage.getItem("token");
 
             const res = await axios.get(
-                "http://localhost:5000/api/jobs/my/jobs",
+                "https://job-portal-mern-88c6.onrender.com/api/jobs/my/jobs",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ function RecruiterDashboard() {
                 localStorage.getItem("token");
 
             const res = await axios.post(
-                "http://localhost:5000/api/jobs/create",
+                "https://job-portal-mern-88c6.onrender.com/api/jobs/create",
                 formData,
                 {
                     headers: {
@@ -90,7 +90,7 @@ function RecruiterDashboard() {
                 localStorage.getItem("token");
 
             await axios.delete(
-                `http://localhost:5000/api/jobs/${jobId}`,
+                `https://job-portal-mern-88c6.onrender.com/api/jobs/${jobId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -118,7 +118,7 @@ function RecruiterDashboard() {
             const token = localStorage.getItem("token");
 
             const res = await axios.get(
-                `http://localhost:5000/api/applications/job/${jobId}`,
+                `https://job-portal-mern-88c6.onrender.com/api/applications/job/${jobId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -144,7 +144,7 @@ function RecruiterDashboard() {
                 localStorage.getItem("token");
 
             await axios.put(
-                `http://localhost:5000/api/applications/status/${applicationId}`,
+                `https://job-portal-mern-88c6.onrender.com/api/applications/status/${applicationId}`,
                 { status },
                 {
                     headers: {

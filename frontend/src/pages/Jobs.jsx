@@ -14,7 +14,7 @@ function Jobs() {
   const fetchJobs = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/jobs"
+        "https://job-portal-mern-88c6.onrender.comttp://localhost:5000/api/jobs"
       );
 
       setJobs(res.data.jobs);
@@ -35,7 +35,7 @@ function Jobs() {
         localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:5000/api/applications/apply",
+        "https://job-portal-mern-88c6.onrender.com/api/applications/apply",
         {
           jobId,
         },

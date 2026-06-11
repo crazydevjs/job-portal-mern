@@ -19,7 +19,7 @@ function MyApplications() {
           localStorage.getItem("token");
 
         const res = await axios.get(
-          "http://localhost:5000/api/applications/my",
+          "https://job-portal-mern-88c6.onrender.com/api/applications/my",
           {
             headers: {
               Authorization:

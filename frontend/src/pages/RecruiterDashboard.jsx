@@ -21,12 +21,10 @@ function RecruiterDashboard() {
 
     const fetchMyJobs = async () => {
         try {
-
-            const token =
-                localStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
             const res = await axios.get(
-                "https://job-portal-mern-88c6.onrender.com/api/jobs/my/jobs",
+                "https://job-portal-mern-88c6.onrender.com/api/jobs/my-jobs",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -34,7 +32,9 @@ function RecruiterDashboard() {
                 }
             );
 
-            setJobs(res.data.jobs);
+            console.log("MY JOBS:", res.data);
+
+            setJobs(res.data.jobs || res.data || []);
 
         } catch (error) {
             console.log(error);

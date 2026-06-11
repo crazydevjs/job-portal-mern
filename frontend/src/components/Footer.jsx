@@ -6,7 +6,7 @@ function Footer() {
 
             <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col items-center justify-center">
 
-                <Link
+                <Link target="_blank"
                     to="https://crazydevjs.github.io/crazydev.github.io/"
                     className="text-sm md:text-base font-medium text-center hover:text-blue-400 transition duration-200"
                 >

@@ -1,6 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate("/login");
+    };
+
     return (
         <nav className="bg-slate-900 text-white px-4 md:px-8 py-4">
 
@@ -12,36 +19,25 @@ function Navbar() {
 
                 <div className="flex flex-wrap justify-center gap-4 md:gap-6 items-center">
 
-                    <Link
-                        to="/"
-                        className="hover:text-blue-400"
-                    >
+                    <Link to="/" className="hover:text-blue-400">
                         Jobs
                     </Link>
 
-                    <Link
-                        to="/applications"
-                        className="hover:text-blue-400"
-                    >
+                    <Link to="/applications" className="hover:text-blue-400">
                         Applications
                     </Link>
 
-                    <Link
-                        to="/profile"
-                        className="hover:text-blue-400"
-                    >
+                    <Link to="/profile" className="hover:text-blue-400">
                         Profile
                     </Link>
+
                     <Link to="/dashboard" className="hover:text-blue-400">
                         Dashboard
                     </Link>
 
                     <button
                         className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600"
-                        onClick={() => {
-                            localStorage.clear();
-                            window.location.href = "/login";
-                        }}
+                        onClick={handleLogout}
                     >
                         Logout
                     </button>

@@ -5,6 +5,7 @@ import axios from "axios";
 function JobDetails() {
   const { id } = useParams();
   const [job, setJob] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchJob();
@@ -12,17 +13,25 @@ function JobDetails() {
 
   const fetchJob = async () => {
     try {
+      setLoading(true);
+
       const res = await axios.get(
         `https://job-portal-mern-88c6.onrender.com/api/jobs/${id}`
       );
 
-      setJob(res.data.job); // 🔥 FIX HERE
+      console.log("API RESPONSE:", res.data);
+
+      // 🔥 SAFE HANDLING
+      setJob(res.data.job || res.data);
+
     } catch (error) {
-      console.log(error);
+      console.log("ERROR:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (!job) {
+  if (loading) {
     return (
       <div className="text-center mt-10">
         Loading...
@@ -30,37 +39,26 @@ function JobDetails() {
     );
   }
 
+  if (!job) {
+    return (
+      <div className="text-center mt-10">
+        Job not found
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-6">
+      <div className="bg-white rounded-xl shadow-lg p-6">
 
-      <div className="bg-white rounded-xl shadow-lg p-6 border border-slate-200">
+        <h1 className="text-3xl font-bold">{job.title}</h1>
+        <p>🏢 {job.company}</p>
+        <p>📍 {job.location}</p>
+        <p>₹ {job.salary}</p>
 
-        <h1 className="text-4xl font-extrabold text-slate-900">
-          {job.title}
-        </h1>
-
-        <p className="mt-4 text-lg">
-          🏢 {job.company}
-        </p>
-
-        <p className="mt-2">
-          📍 {job.location}
-        </p>
-
-        <p className="mt-2 text-green-600 font-bold">
-          ₹ {job.salary}
-        </p>
-
-        <h2 className="text-2xl font-semibold mt-6">
-          Description
-        </h2>
-
-        <p className="mt-2">
-          {job.description}
-        </p>
+        <p className="mt-4">{job.description}</p>
 
       </div>
-
     </div>
   );
 }

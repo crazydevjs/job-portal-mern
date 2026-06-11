@@ -4,12 +4,11 @@ import axios from "axios";
 
 function JobDetails() {
   const { id } = useParams();
-
   const [job, setJob] = useState(null);
 
   useEffect(() => {
     fetchJob();
-  }, []);
+  }, [id]);
 
   const fetchJob = async () => {
     try {
@@ -17,8 +16,7 @@ function JobDetails() {
         `https://job-portal-mern-88c6.onrender.com/api/jobs/${id}`
       );
 
-      setJob(res.data);
-
+      setJob(res.data.job); // 🔥 FIX HERE
     } catch (error) {
       console.log(error);
     }

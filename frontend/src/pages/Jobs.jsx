@@ -14,7 +14,7 @@ function Jobs() {
   const fetchJobs = async () => {
     try {
       const res = await axios.get(
-        "https://job-portal-mern-88c6.onrender.comttp://localhost:5000/api/jobs"
+        "https://job-portal-mern-88c6.onrender.com/api/jobs"
       );
 
       setJobs(res.data.jobs);

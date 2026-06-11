@@ -24,7 +24,7 @@ function RecruiterDashboard() {
             const token = localStorage.getItem("token");
 
             const res = await axios.get(
-                "https://job-portal-mern-88c6.onrender.com/api/jobs/myjobs",
+                "https://job-portal-mern-88c6.onrender.com/api/jobs",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

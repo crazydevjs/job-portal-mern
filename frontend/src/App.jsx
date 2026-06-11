@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -24,48 +24,16 @@ function AppContent() {
 
       <Routes>
         <Route path="/" element={<Jobs />} />
-
         <Route path="/login" element={<Login />} />
-
         <Route path="/register" element={<Register />} />
 
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/job/:id"
-          element={<JobDetails />}
-        />
-        <Route
-          path="/dashboard"
-          element={<RecruiterDashboard />}
-        />
-
-        <Route
-          path="/applications"
-          element={
-            <ProtectedRoute>
-              <MyApplications />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/job/:id" element={<JobDetails />} />
+        <Route path="/dashboard" element={<RecruiterDashboard />} />
+        <Route path="/applications" element={<ProtectedRoute><MyApplications /></ProtectedRoute>} />
       </Routes>
     </>
   );
 }
 
-function App() {
-  return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
-  );
-}
-
-export default App;
+export default AppContent;

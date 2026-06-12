@@ -16,7 +16,7 @@ function Footer() {
 
                     <Link
                         target="_blank"
-                        to="https://crazydevjs.github.io/crazydev.github.io/"
+                        to="https://crazydev-github-io.vercel.app/"
                         className="text-sm text-slate-400 hover:text-white transition-colors"
                     >
                         Built by Deepak Deodatt Mishrra

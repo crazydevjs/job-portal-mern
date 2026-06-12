@@ -1,8 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +17,7 @@ function Register() {
         "https://job-portal-mern-88c6.onrender.com/api/users/register",
         { name, email, password }
       );
-      window.location.href = "/login";
+      navigate("/login");
     } catch (error) {
       alert(error.response?.data?.message || "Registration Failed");
     } finally {

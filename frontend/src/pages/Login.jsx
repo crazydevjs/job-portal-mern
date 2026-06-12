@@ -1,8 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ function Login() {
         { email, password }
       );
       localStorage.setItem("token", res.data.token);
-      window.location.href = "/jobs";
+      navigate("/jobs");
     } catch (error) {
       alert(error.response?.data?.message || "Login Failed");
     } finally {

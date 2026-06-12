@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const inputClass =
   "w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition";
 
 function Profile() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -215,7 +217,7 @@ function Profile() {
                 </button>
               )}
               <button
-                onClick={() => { localStorage.clear(); window.location.href = "/login"; }}
+                onClick={() => { localStorage.clear(); navigate("/login"); }}
                 className="border border-red-200 text-red-600 hover:bg-red-50 font-medium px-5 py-2.5 rounded-lg text-sm transition-colors"
               >
                 Logout

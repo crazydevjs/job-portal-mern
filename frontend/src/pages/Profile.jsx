@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_BASE } from "../config";
 
 const inputClass =
   "w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition";
@@ -27,7 +28,7 @@ function Profile() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://job-portal-mern-88c6.onrender.com/api/users/profile",
+        `${API_BASE}/api/users/profile`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setUser(res.data.user);
@@ -49,7 +50,7 @@ function Profile() {
       setSaving(true);
       const token = localStorage.getItem("token");
       await axios.put(
-        "https://job-portal-mern-88c6.onrender.com/api/users/profile",
+        `${API_BASE}/api/users/profile`,
         { ...formData, skills: formData.skills.split(",").map((s) => s.trim()) },
         { headers: { Authorization: `Bearer ${token}` } }
       );

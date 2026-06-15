@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { API_BASE } from "../config";
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);
@@ -13,7 +14,7 @@ function Jobs() {
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get("https://job-portal-mern-88c6.onrender.com/api/jobs");
+      const res = await axios.get(`${API_BASE}/api/jobs`);
       setJobs(res.data.jobs);
     } catch (error) {
       console.log(error);
@@ -26,7 +27,7 @@ function Jobs() {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "https://job-portal-mern-88c6.onrender.com/api/applications/apply",
+        `${API_BASE}/api/applications/apply`,
         { jobId },
         { headers: { Authorization: `Bearer ${token}` } }
       );

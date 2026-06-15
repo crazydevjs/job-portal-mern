@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { API_BASE } from "../config";
 
 function Register() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function Register() {
     setLoading(true);
     try {
       await axios.post(
-        "https://job-portal-mern-88c6.onrender.com/api/users/register",
+        `${API_BASE}/api/users/register`,
         { name, email, password }
       );
       navigate("/login");

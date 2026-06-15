@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { API_BASE } from "../config";
 
 function Login() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function Login() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "https://job-portal-mern-88c6.onrender.com/api/users/login",
+        `${API_BASE}/api/users/login`,
         { email, password }
       );
       localStorage.setItem("token", res.data.token);

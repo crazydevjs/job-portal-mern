@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE } from "../config";
 
 const statusStyle = {
   pending: "bg-amber-50 text-amber-700",
@@ -19,7 +20,7 @@ function MyApplications() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://job-portal-mern-88c6.onrender.com/api/applications/my",
+        `${API_BASE}/api/applications/my`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setApplications(res.data.applications);

@@ -1,10 +1,8 @@
 import axios from "axios";
-import api from "../services/api";
-
-const res = await api.get("/jobs");
+import { API_BASE } from "../config";
 
 const api = axios.create({
-  baseURL: "https://job-portal-mern-88c6.onrender.com/api",
+  baseURL: `${API_BASE}/api`,
 });
 
 export default api;

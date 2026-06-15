@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE } from "../config";
 
 const inputClass =
   "w-full border border-slate-300 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition";
@@ -22,7 +23,7 @@ function RecruiterDashboard() {
         try {
             const token = localStorage.getItem("token");
             const res = await axios.get(
-                "https://job-portal-mern-88c6.onrender.com/api/jobs",
+                `${API_BASE}/api/jobs`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setJobs(res.data.jobs || res.data || []);
@@ -36,7 +37,7 @@ function RecruiterDashboard() {
             setCreating(true);
             const token = localStorage.getItem("token");
             await axios.post(
-                "https://job-portal-mern-88c6.onrender.com/api/jobs/create",
+                `${API_BASE}/api/jobs/create`,
                 formData,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -55,7 +56,7 @@ function RecruiterDashboard() {
         try {
             const token = localStorage.getItem("token");
             await axios.delete(
-                `https://job-portal-mern-88c6.onrender.com/api/jobs/${jobId}`,
+                `${API_BASE}/api/jobs/${jobId}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             if (selectedJob === jobId) {
@@ -72,7 +73,7 @@ function RecruiterDashboard() {
         try {
             const token = localStorage.getItem("token");
             const res = await axios.get(
-                `https://job-portal-mern-88c6.onrender.com/api/applications/job/${jobId}`,
+                `${API_BASE}/api/applications/job/${jobId}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setApplicants(res.data.applications);
@@ -86,7 +87,7 @@ function RecruiterDashboard() {
         try {
             const token = localStorage.getItem("token");
             await axios.put(
-                `https://job-portal-mern-88c6.onrender.com/api/applications/status/${applicationId}`,
+                `${API_BASE}/api/applications/status/${applicationId}`,
                 { status },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

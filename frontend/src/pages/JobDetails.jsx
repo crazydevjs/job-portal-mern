@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_BASE } from "../config";
 
 function JobDetails() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ function JobDetails() {
 
   const fetchJob = async () => {
     try {
-      const res = await axios.get(`https://job-portal-mern-88c6.onrender.com/api/jobs/${id}`);
+      const res = await axios.get(`${API_BASE}/api/jobs/${id}`);
       setJob(res.data.job || res.data);
     } catch (error) {
       console.log(error);
